@@ -1,0 +1,683 @@
+openapi: 3.1.0
+info:
+  title: ccd-user
+  version: '1.0'
+servers:
+  - url: 'http://localhost:3000/api/v1/ccd-user'
+paths:
+  '/users/{userId}':
+    parameters:
+      - schema:
+          type: integer
+        name: userId
+        in: path
+        required: true
+        description: Id of an existing user.
+    get:
+      summary: ユーザ情報検索API
+      tags: []
+      responses:
+        '200':
+          description: User Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchUserReponseDetailV1'
+              examples:
+                example-1:
+                  value:
+                    userId: e7bb2e83-3084-40b0-aa7d-9369d5b29b0f
+                    userCode: '10000'
+                    userName: テストユーザ
+                    emailAddress: test@example.com
+                    userType: '1'
+                    emailAddressActivationFlag: 0
+                    friendCode: CCDF-10000
+                    ignoreAccessFlag: 0
+                    friendDetail:
+                      destinationUserId: 9d1743c8-be2b-4658-a83e-845d0b7439f9
+                      closeUserFlag: string
+                      common:
+                        createUser: '10000'
+                        createDateTime: '2019-08-24T14:15:22Z'
+                        updateUser: '10000'
+                        updateDateTime: '2019-08-24T14:15:22Z'
+                        deleteFlag: 0
+                    common:
+                      createUser: '10000'
+                      createDateTime: '2019-08-24T14:15:22Z'
+                      updateUser: '10000'
+                      updateDateTime: '2019-08-24T14:15:22Z'
+                      deleteFlag: 0
+        '404':
+          description: User Not Found
+      operationId: ccd-u-search-user
+      description: ''
+      parameters:
+        - $ref: '#/components/parameters/userId'
+        - $ref: '#/components/parameters/userCode'
+        - $ref: '#/components/parameters/userType'
+    patch:
+      summary: ユーザ情報更新API
+      operationId: ccd-u-update-user
+      responses:
+        '200':
+          description: User Updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchUserResponseV1'
+              examples:
+                example-1:
+                  value:
+                    recordCount: 1
+                    userDetail:
+                      userId: e7bb2e83-3084-40b0-aa7d-9369d5b29b0f
+                      userCode: '10000'
+                      userName: テストユーザ
+                      emailAddress: test@example.com
+                      userType: '1'
+                      emailAddressActivationFlag: 0
+                      friendCode: CCDF-10000
+                      ignoreAccessFlag: 0
+                      friendDetail:
+                        destinationUserId: 9d1743c8-be2b-4658-a83e-845d0b7439f9
+                        closeUserFlag: string
+                        common:
+                          createUser: '10000'
+                          createDateTime: '2019-08-24T14:15:22Z'
+                          updateUser: '10000'
+                          updateDateTime: '2019-08-24T14:15:22Z'
+                          deleteFlag: 0
+                      common:
+                        createUser: '10000'
+                        createDateTime: '2019-08-24T14:15:22Z'
+                        updateUser: '10000'
+                        updateDateTime: '2019-08-24T14:15:22Z'
+                        deleteFlag: 0
+        '404':
+          description: User Not Found
+        '409':
+          description: Email Already Taken
+      description: Update the information of an existing user.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateUserRequestV1'
+            examples:
+              example-1:
+                value:
+                  userName: テストユーザ
+                  emailAddress: test@example.com
+    delete:
+      summary: ユーザ情報削除API
+      operationId: ccd-u-delete-user
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+      description: ''
+  /user:
+    post:
+      summary: 新規ユーザー作成API
+      operationId: ccd-u-create-user
+      responses:
+        '200':
+          description: User Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchUserResponseV1'
+              examples:
+                example-1:
+                  value:
+                    recordCount: 1
+                    userDetail:
+                      userId: e7bb2e83-3084-40b0-aa7d-9369d5b29b0f
+                      userCode: '10000'
+                      userName: テストユーザ
+                      emailAddress: test@example.com
+                      userType: '1'
+                      emailAddressActivationFlag: 0
+                      friendCode: CCDF-10000
+                      ignoreAccessFlag: 0
+                      friendDetail: {}
+                    common:
+                      createUser: '10000'
+                      createDateTime: '2019-08-24T14:15:22Z'
+                      updateUser: '10000'
+                      updateDateTime: '2019-08-24T14:15:22Z'
+                      deleteFlag: 0
+        '400':
+          description: Missing Required Information
+        '409':
+          description: Email Already Taken
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUserRequestV1'
+            examples:
+              example-1:
+                value:
+                  userName: テスト
+                  password: 6338853a2c2d7c3f16b3dbe66140d7e6925f8542a4c54438589d1df9b6a761d396bfd51e3c69511021121447bf24b5b392ba6fadc40f4e57d0ebdc8b1fde07de
+                  emailAddress: example@test.com
+        description: Post the necessary fields for the API to create a new user.
+      description: Create a new user.
+    get:
+      summary: ユーザ情報一覧取得API
+      operationId: get-user
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchUserResponseV1'
+  '/friend/{destinationUserId}':
+    parameters:
+      - schema:
+          type: string
+        name: destinationUserId
+        in: path
+        required: true
+    get:
+      summary: フレンド情報検索API
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchFriendDetailResponseV1'
+              examples:
+                example-1:
+                  value:
+                    userId: e7bb2e83-3084-40b0-aa7d-9369d5b29b0f
+                    userCode: '10000'
+                    userName: テストユーザ
+                    userType: '1'
+                    friendDetail:
+                      - destinationUserId: 9d1743c8-be2b-4658-a83e-845d0b7439f9
+                        closeUserFlag: string
+                        common:
+                          createUser: '10000'
+                          createDateTime: '2019-08-24T14:15:22Z'
+                          updateUser: '10000'
+                          updateDateTime: '2019-08-24T14:15:22Z'
+                          deleteFlag: 0
+      operationId: get-friend-userId
+      description: ''
+    patch:
+      summary: 親しいユーザ更新API
+      operationId: patch-friend-userId
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchFriendDetailResponseV1'
+              examples:
+                example-1:
+                  value:
+                    userId: e7bb2e83-3084-40b0-aa7d-9369d5b29b0f
+                    userCode: '10000'
+                    userName: テストユーザ
+                    userType: '1'
+                    friendDetail:
+                      - destinationUserId: 9d1743c8-be2b-4658-a83e-845d0b7439f9
+                        closeUserFlag: string
+                        common:
+                          createUser: '10000'
+                          createDateTime: '2019-08-24T14:15:22Z'
+                          updateUser: '10000'
+                          updateDateTime: '2019-08-24T14:15:22Z'
+                          deleteFlag: 0
+    delete:
+      summary: フレンド情報削除API
+      operationId: delete-friend-userId
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchFriendDetailResponseV1'
+              examples:
+                example-1:
+                  value:
+                    userId: e7bb2e83-3084-40b0-aa7d-9369d5b29b0f
+                    userCode: '10000'
+                    userName: テストユーザ
+                    userType: '1'
+                    friendDetail:
+                      - destinationUserId: 9d1743c8-be2b-4658-a83e-845d0b7439f9
+                        closeUserFlag: string
+                        common:
+                          createUser: '10000'
+                          createDateTime: '2019-08-24T14:15:22Z'
+                          updateUser: '10000'
+                          updateDateTime: '2019-08-24T14:15:22Z'
+                          deleteFlag: 0
+  /friend:
+    post:
+      summary: フレンド情報登録API
+      operationId: post-friend
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchUserReponseFriendDetailV1'
+              examples:
+                example-1:
+                  value:
+                    destinationUserId: 9d1743c8-be2b-4658-a83e-845d0b7439f9
+                    closeUserFlag: string
+                    common:
+                      createUser: '10000'
+                      createDateTime: '2019-08-24T14:15:22Z'
+                      updateUser: '10000'
+                      updateDateTime: '2019-08-24T14:15:22Z'
+                      deleteFlag: 0
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateFriendRequestV1'
+    get:
+      summary: フレンド情報一覧取得API
+      operationId: get-friend
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchFriendResponseV1'
+              examples:
+                example-1:
+                  value:
+                    - destinationUserId: 9d1743c8-be2b-4658-a83e-845d0b7439f9
+                      closeUserFlag: string
+                      common:
+                        createUser: '10000'
+                        createDateTime: '2019-08-24T14:15:22Z'
+                        updateUser: '10000'
+                        updateDateTime: '2019-08-24T14:15:22Z'
+                        deleteFlag: 0
+      parameters:
+        - $ref: '#/components/parameters/userId'
+        - $ref: '#/components/parameters/destinationUserId'
+components:
+  schemas:
+    CreateFriendRequestV1:
+      title: CreateFriendRequestV1
+      type: object
+      examples:
+        - destinationUserId: 9d1743c8-be2b-4658-a83e-845d0b7439f9
+          closeUserFlag: string
+          common:
+            createUser: '10000'
+            createDateTime: '2019-08-24T14:15:22Z'
+            updateUser: '10000'
+            updateDateTime: '2019-08-24T14:15:22Z'
+            deleteFlag: 0
+      description: フレンド情報登録APIリクエスト
+      properties:
+        destinationUserId:
+          type: string
+          format: uuid
+          description: 宛先ユーザId
+        closeUserFlag:
+          type: string
+          description: 親しいユーザフラグ
+    CreateUserRequestV1:
+      title: CreateUserRequestV1
+      type: object
+      description: 新規ユーザー登録リクエスト
+      properties:
+        userName:
+          type: string
+          description: ユーザ名
+          example: テスト
+        password:
+          type: string
+          description: パスワード（ハッシュ）
+          example: 6338853a2c2d7c3f16b3dbe66140d7e6925f8542a4c54438589d1df9b6a761d396bfd51e3c69511021121447bf24b5b392ba6fadc40f4e57d0ebdc8b1fde07de
+        emailAddress:
+          type: string
+          description: メールアドレス
+          example: example@test.com
+      required:
+        - userName
+        - password
+      examples:
+        - userName: テスト
+          password: 6338853a2c2d7c3f16b3dbe66140d7e6925f8542a4c54438589d1df9b6a761d396bfd51e3c69511021121447bf24b5b392ba6fadc40f4e57d0ebdc8b1fde07de
+          emailAddress: example@test.com
+    SearchFriendResponseV1:
+      title: SearchFriendResponseV1
+      type: object
+      examples:
+        - - destinationUserId: 9d1743c8-be2b-4658-a83e-845d0b7439f9
+            closeUserFlag: string
+            common:
+              createUser: '10000'
+              createDateTime: '2019-08-24T14:15:22Z'
+              updateUser: '10000'
+              updateDateTime: '2019-08-24T14:15:22Z'
+              deleteFlag: 0
+      properties:
+        recordCount:
+          type: number
+          description: 取得件数
+        friendDetail:
+          type: array
+          description: フレンド詳細
+          items:
+            $ref: '#/components/schemas/SearchUserReponseFriendDetailV1'
+      description: フレンド検索ベースモデル
+    SearchFriendDetailResponseV1:
+      title: SearchFriendDetailResponseV1
+      type: object
+      examples:
+        - userId: e7bb2e83-3084-40b0-aa7d-9369d5b29b0f
+          userCode: '10000'
+          userName: テストユーザ
+          userType: '1'
+          friendDetail:
+            - destinationUserId: 9d1743c8-be2b-4658-a83e-845d0b7439f9
+              closeUserFlag: string
+              common:
+                createUser: '10000'
+                createDateTime: '2019-08-24T14:15:22Z'
+                updateUser: '10000'
+                updateDateTime: '2019-08-24T14:15:22Z'
+                deleteFlag: 0
+      description: ユーザ検索詳細
+      properties:
+        userId:
+          type: string
+          format: uuid
+          example: e7bb2e83-3084-40b0-aa7d-9369d5b29b0f
+          description: ユーザId
+        userCode:
+          type: string
+          example: '10000'
+          description: ユーザコード
+        userName:
+          type: string
+          example: テストユーザ
+          description: ユーザ名
+        userType:
+          $ref: '#/components/schemas/UserType'
+        friendDetail:
+          type: array
+          items:
+            $ref: '#/components/schemas/SearchUserReponseFriendDetailV1'
+      required:
+        - userId
+        - userCode
+        - userType
+    SearchUserResponseV1:
+      title: SearchUserResponseV1
+      type: object
+      examples:
+        - recordCount: 1
+          userDetail:
+            userId: e7bb2e83-3084-40b0-aa7d-9369d5b29b0f
+            userCode: '10000'
+            userName: テストユーザ
+            emailAddress: test@example.com
+            userType: '1'
+            emailAddressActivationFlag: 0
+            friendCode: CCDF-10000
+            ignoreAccessFlag: 0
+            friendDetail:
+              destinationUserId: 9d1743c8-be2b-4658-a83e-845d0b7439f9
+              closeUserFlag: string
+              common:
+                createUser: '10000'
+                createDateTime: '2019-08-24T14:15:22Z'
+                updateUser: '10000'
+                updateDateTime: '2019-08-24T14:15:22Z'
+                deleteFlag: 0
+            common:
+              createUser: '10000'
+              createDateTime: '2019-08-24T14:15:22Z'
+              updateUser: '10000'
+              updateDateTime: '2019-08-24T14:15:22Z'
+              deleteFlag: 0
+      properties:
+        recordCount:
+          type: number
+          description: 取得件数
+          example: 1
+        userDetail:
+          $ref: '#/components/schemas/SearchUserReponseDetailV1'
+      required:
+        - recordCount
+        - userDetail
+      description: ユーザ検索ベースモデル
+    SearchUserReponseDetailV1:
+      title: SearchUserReponseDetailV1
+      type: object
+      examples:
+        - userId: e7bb2e83-3084-40b0-aa7d-9369d5b29b0f
+          userCode: '10000'
+          userName: テストユーザ
+          emailAddress: test@example.com
+          userType: '1'
+          emailAddressActivationFlag: 0
+          friendCode: CCDF-10000
+          ignoreAccessFlag: 0
+          friendDetail:
+            - destinationUserId: 9d1743c8-be2b-4658-a83e-845d0b7439f9
+              closeUserFlag: string
+              common:
+                createUser: '10000'
+                createDateTime: '2019-08-24T14:15:22Z'
+                updateUser: '10000'
+                updateDateTime: '2019-08-24T14:15:22Z'
+                deleteFlag: 0
+          common:
+            createUser: '10000'
+            createDateTime: '2019-08-24T14:15:22Z'
+            updateUser: '10000'
+            updateDateTime: '2019-08-24T14:15:22Z'
+            deleteFlag: 0
+      description: ユーザ検索詳細
+      properties:
+        userId:
+          type: string
+          format: uuid
+          example: e7bb2e83-3084-40b0-aa7d-9369d5b29b0f
+          description: ユーザId
+        userCode:
+          type: string
+          example: '10000'
+          description: ユーザコード
+        userName:
+          type: string
+          example: テストユーザ
+          description: ユーザ名
+        emailAddress:
+          type: string
+          format: email
+          example: test@example.com
+          description: メールアドレス
+        userType:
+          $ref: '#/components/schemas/UserType'
+        emailAddressActivationFlag:
+          type: string
+          enum:
+            - 0
+            - 1
+          description: メールアドレスアクティベーションフラグ
+        friendCode:
+          type: string
+          example: CCDF-10000
+          description: フレンドコード
+        ignoreAccessFlag:
+          type: string
+          enum:
+            - 0
+            - 1
+          description: アクセス禁止フラグ
+        friendDetail:
+          type: array
+          items:
+            $ref: '#/components/schemas/SearchUserReponseFriendDetailV1'
+        common:
+          $ref: '#/components/schemas/Common'
+      required:
+        - userId
+        - userCode
+        - userType
+    SearchUserReponseFriendDetailV1:
+      title: SearchUserReponseFriendDetailV1
+      type: object
+      properties:
+        destinationUserId:
+          type: string
+          format: uuid
+          description: 宛先ユーザId
+        closeUserFlag:
+          type: string
+          description: 親しいユーザフラグ
+        common:
+          $ref: '#/components/schemas/Common'
+      examples:
+        - destinationUserId: 9d1743c8-be2b-4658-a83e-845d0b7439f9
+          closeUserFlag: string
+          common:
+            createUser: '10000'
+            createDateTime: '2019-08-24T14:15:22Z'
+            updateUser: '10000'
+            updateDateTime: '2019-08-24T14:15:22Z'
+            deleteFlag: 0
+      description: ユーザ検索フレンド
+    UpdateUserRequestV1:
+      title: UpdateUserRequestV1
+      type: object
+      examples:
+        - userName: テストユーザ
+          emailAddress: test@example.com
+      description: ユーザ更新詳細
+      properties:
+        userName:
+          type: string
+          example: テストユーザ
+          description: ユーザ名
+        emailAddress:
+          type: string
+          format: email
+          example: test@example.com
+          description: メールアドレス
+    UserType:
+      type: string
+      title: UserType
+      examples:
+        - userType: '1'
+      enum:
+        - 1
+        - 2
+        - 3
+        - 4
+        - 5
+        - 6
+        - 7
+        - 8
+        - 9
+      example: '1'
+      default: 1
+      description: ユーザ種別
+    Common:
+      title: Common
+      type: object
+      properties:
+        createUser:
+          type: string
+          example: '10000'
+          maxLength: 20
+        createDateTime:
+          type: string
+          format: date-time
+        updateUser:
+          type: string
+          maxLength: 20
+          example: '10000'
+        updateDateTime:
+          type: string
+          format: date-time
+        deleteFlag:
+          type: string
+          enum:
+            - 0
+            - 1
+      required:
+        - createUser
+        - createDateTime
+        - updateUser
+        - updateDateTime
+        - deleteFlag
+      examples:
+        - createUser: '10000'
+          createDateTime: '2019-08-24T14:15:22Z'
+          updateUser: '10000'
+          updateDateTime: '2019-08-24T14:15:22Z'
+          deleteFlag: 0
+      description: 共通証跡項目
+  parameters:
+    userId:
+      name: userId
+      in: query
+      schema:
+        type: string
+        format: uuid
+        example: e7bb2e83-3084-40b0-aa7d-9369d5b29b0f
+      description: ユーザId
+    userCode:
+      name: userCode
+      in: query
+      required: false
+      schema:
+        type: string
+        maxLength: 20
+      description: ユーザコード
+    userType:
+      name: userType
+      in: query
+      required: false
+      schema:
+        type: string
+        enum:
+          - '1'
+          - '2'
+          - '3'
+          - '4'
+          - '5'
+          - '6'
+          - '7'
+          - '8'
+          - '9'
+        example: '1'
+      description: ユーザ区分
+    destinationUserId:
+      name: destinationUserId
+      in: query
+      schema:
+        type: string
+        format: uuid
+      description: 宛先ユーザId
+  securitySchemes: {}
+x-Operation-User-Code: 10000
+x-Operation-User-Type: 1
+x-Operation-User: e7bb2e83-3084-40b0-aa7d-9369d5b29b0f
