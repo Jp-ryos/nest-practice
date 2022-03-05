@@ -19,13 +19,13 @@ export class Cats extends AnimalImpl {
     this._kenami = kenami;
   }
 
-  meow(): void {
-    console.log(`${this._name}はニャーと鳴いた`);
+  meow(): string {
+    return `${this._name}はニャーと鳴いた`;
   };
 
-  getCatsInfo(): void {
-    console.log(
-      `このネコの名前は${this._name}です。歳は${this._age}です。毛並みは${this._kenami}です。`
-    );
+  getCatsInfo(): string {
+
+    return `このネコの名前は${this._name}です。歳は${this._age}です。毛並みは${this._kenami}です。`;
+
   }
 }

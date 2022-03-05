@@ -17,4 +17,15 @@ export class AppController {
   getAnimal(): Animal {
     return this._appService.getAnimal();
   }
+
+  @Get('/animal/cat/meow')
+  getMeow(): string {
+    return this._appService.getMeow();
+  }
+
+  @Get('/animal/info')
+  getInfo(): string {
+    return this._appService.getCatsInfo();
+  }
+
 }

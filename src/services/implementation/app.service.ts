@@ -14,4 +14,14 @@ export class AppService implements AppServiceInterface {
     let animal: Cats = new Cats('ぺこ', 2, 'こげ茶');
     return animal;
   }
+
+  getMeow(): string {
+    let neko: Cats = new Cats('ぺこ', 2, 'こげ茶');
+    return neko.meow();
+  }
+
+  getCatsInfo(): string {
+    let nuko: Cats = new Cats('ぺこ', 2, 'こげ茶');
+    return nuko.getCatsInfo();
+  }
 }
