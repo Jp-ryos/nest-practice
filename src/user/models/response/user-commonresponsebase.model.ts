@@ -1,4 +1,4 @@
-export class CommonResponseBase {
+export interface CommonResponseBase {
 
   createUser: string;
 

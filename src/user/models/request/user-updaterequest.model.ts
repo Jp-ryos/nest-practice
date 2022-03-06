@@ -2,8 +2,7 @@ import { IsEmail, MaxLength } from 'class-validator';
 
 export class UpdateUserRequestV1 {
 
-  userName: string;
+  userName: string | null;
 
-  @IsEmail()
-  emailAddress: string;
+  emailAddress: string | null;
 }

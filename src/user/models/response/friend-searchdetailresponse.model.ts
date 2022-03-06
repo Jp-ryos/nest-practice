@@ -1,6 +1,6 @@
-import { SearchUserResponseFriendDetailV1 } from './SearchUserResponseFriendDetailV1';
+import { SearchUserResponseFriendDetailV1 } from './user-searchresponsefrienddetail.model';
 
-export class SearchFriendDetailReponseV1 {
+export interface SearchFriendDetailReponseV1 {
 
   userId: string;
 
