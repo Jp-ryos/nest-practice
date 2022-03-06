@@ -1,17 +1,19 @@
 import { Module } from '@nestjs/common';
-import { UserController } from 'src/controllers/implementation/user.controller';
+import { ErrorHandler, _privateId_ErrorHandler } from 'src/common/services/error/Errorhandler';
+import { TimeProvider, _privateId_timeProvider } from 'src/common/services/TimeProvider';
+import { UserController } from 'src/user/controllers/implementation/user.controller';
 import {
   DefaultDeleteUserService,
   DefaultGetUserService,
   DefaultSearchUserService,
   DefaultUpdateUserService,
-} from 'src/services/implementation/user.service';
+} from 'src/user/services/implementation/user.service';
 import {
   _privateId_DeleteUserService,
   _privateId_GetUserService,
   _privateId_SearchUserService,
   _privateId_UpdateUserService
-} from 'src/services/user-service.interface';
+} from 'src/user/services/user-service.interface';
 
 
 
@@ -35,6 +37,14 @@ import {
     {
       useClass: DefaultGetUserService,
       provide: _privateId_GetUserService
+    },
+    {
+      useClass: TimeProvider,
+      provide: _privateId_timeProvider
+    },
+    {
+      useClass: ErrorHandler,
+      provide: _privateId_ErrorHandler
     }
   ],
 })

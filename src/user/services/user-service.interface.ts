@@ -1,6 +1,7 @@
-import { SearchUserResponseDetailV1 } from 'src/models/SearchUserResponseDetailV1';
-import { SearchUserResponseV1 } from 'src/models/SearchUserResponseV1';
-import { UpdateUserRequestV1 } from 'src/models/UpdateUserRequestV1';
+import { UpdateUserRequestV1 } from 'src/user/models/request/user-updaterequest.model';
+import { UpdateUserDto } from '../dto/update-user.dto';
+import { SearchUserResponseV1 } from '../models/response/friend-searchresponse.model';
+import { SearchUserResponseDetailV1 } from '../models/response/user-searchresponsedetail.model';
 
 
 export const _privateId_SearchUserService: string = '64c92b1b-557c-4500-bb80-b8d23b6c432e';
@@ -14,7 +15,7 @@ export interface SearchUserService {
 }
 
 export interface UpdateUserService {
-  updateUser(userId: string, updateUserRequestV1: UpdateUserRequestV1): SearchUserResponseDetailV1;
+  updateUser(userId: string, updateUserDto: UpdateUserDto): SearchUserResponseDetailV1;
 }
 
 export interface DeleteUserService {
