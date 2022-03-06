@@ -1,12 +1,33 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ErrorHandler, _privateId_ErrorHandler } from 'src/common/services/error/Errorhandler';
 import { TimeProvider, _privateId_timeProvider } from 'src/common/services/TimeProvider';
+import { CreateUserDto } from 'src/user/dto/create-user.dto';
 import { UpdateUserDto } from 'src/user/dto/update-user.dto';
+import { CreateUserRequestV1 } from 'src/user/models/request/user-createrequest.model';
 import { UpdateUserRequestV1 } from 'src/user/models/request/user-updaterequest.model';
 import { SearchUserResponseV1 } from 'src/user/models/response/friend-searchresponse.model';
 import { SearchUserResponseDetailV1 } from 'src/user/models/response/user-searchresponsedetail.model';
-import { DeleteUserService, GetUserService, SearchUserService, UpdateUserService } from '../user-service.interface';
+import { CreateUserService, DeleteUserService, GetUserService, SearchUserService, UpdateUserService } from '../user-service.interface';
 
+@Injectable()
+export class DefaultGetUserService implements GetUserService {
+
+  constructor(@Inject(_privateId_timeProvider) private readonly timeProvider: TimeProvider) { }
+
+  getUser(userId: string, userCode: string, userType: UserType): SearchUserResponseV1 {
+    return null;
+  }
+}
+
+@Injectable()
+export class DefaultCreateUserService implements CreateUserService {
+  createUser(createUserDto: CreateUserDto): SearchUserResponseDetailV1 {
+    let request: CreateUserRequestV1 = createUserDto.request;
+
+    return null;
+  }
+
+}
 @Injectable()
 export class DefaultSearchUserService implements SearchUserService {
 
@@ -45,16 +66,6 @@ export class DefaultDeleteUserService implements DeleteUserService {
   constructor(@Inject(_privateId_timeProvider) private readonly timeProvider: TimeProvider) { }
 
   deleteUser(userId: string): SearchUserResponseDetailV1 {
-    return null;
-  }
-}
-
-@Injectable()
-export class DefaultGetUserService implements GetUserService {
-
-  constructor(@Inject(_privateId_timeProvider) private readonly timeProvider: TimeProvider) { }
-
-  getUser(userId: string, userCode: string, userType: UserType): SearchUserResponseV1 {
     return null;
   }
 }

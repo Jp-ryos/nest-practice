@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Inject, Param, Patch, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Inject, Param, Patch, Post, Query } from '@nestjs/common';
 import { UpdateUserRequestV1 } from 'src/user/models/request/user-updaterequest.model';
 import { UserControllerInterface } from '../user-controller.interface';
 
@@ -15,6 +15,7 @@ import {
 import { UpdateUserDto } from 'src/user/dto/update-user.dto';
 import { SearchUserResponseDetailV1 } from 'src/user/models/response/user-searchresponsedetail.model';
 import { SearchUserResponseV1 } from 'src/user/models/response/friend-searchresponse.model';
+import { CreateUserRequestV1 } from 'src/user/models/request/user-createrequest.model';
 
 @Controller('/users')
 export class UserController implements UserControllerInterface {
@@ -24,6 +25,16 @@ export class UserController implements UserControllerInterface {
     @Inject(_privateId_DeleteUserService) private readonly _deleteUserService: DeleteUserService,
     @Inject(_privateId_GetUserService) private readonly _getUserService: GetUserService,
   ) { }
+
+  @Get()
+  getUser(@Query('userId') userId: string, @Query('userCode') userCode: string, @Query('userType') userType: UserType): SearchUserResponseV1 {
+    return this._getUserService.getUser(userId, userCode, userType);
+  }
+
+  @Post()
+  createUser(createUserRequest: CreateUserRequestV1): SearchUserResponseDetailV1 {
+    throw new Error('Method not implemented.');
+  }
 
   @Get(':userId')
   searchUser(@Param('userId') userId: string): SearchUserResponseDetailV1 {
@@ -40,11 +51,4 @@ export class UserController implements UserControllerInterface {
   deleteUser(@Param('userId') userId: string) {
     return this._deleteUserService.deleteUser(userId);
   }
-
-  @Get()
-  getUser(@Query('userId') userId: string, @Query('userCode') userCode: string, @Query('userType') userType: UserType): SearchUserResponseV1 {
-    return this._getUserService.getUser(userId, userCode, userType);
-  }
-
-
 }
