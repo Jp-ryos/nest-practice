@@ -6,8 +6,14 @@ export class CreateUserRequestV1 {
   @MaxLength(20)
   userName: string;
 
+  @IsNotEmpty()
+  @MaxLength(20)
+  userCode: string;
+
   @ValidateIf((o, v) => v != null && v.length)
   @IsEmail()
   emailAddress: string;
 
+  @IsNotEmpty()
+  password: string;
 }

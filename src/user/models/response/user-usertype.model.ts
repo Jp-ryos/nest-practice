@@ -1,4 +1,4 @@
-const UserType = {
+const UserTypeConst = {
   Normal: '1',
   Silver: '2',
   GoldUser: '3',
@@ -10,5 +10,5 @@ const UserType = {
   Master: '9'
 } as const;
 
-type UserType = typeof UserType[keyof typeof UserType];
+type UserType = typeof UserTypeConst[keyof typeof UserTypeConst];
 

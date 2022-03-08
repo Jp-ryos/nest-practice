@@ -1,4 +1,5 @@
 import { CommonResponse } from './user-commonresponse.model';
+import { CommonResponseBase } from './user-commonresponsebase.model';
 import { SearchUserResponseFriendDetailV1 } from './user-searchresponsefrienddetail.model';
 
 export interface SearchUserResponseDetail {
@@ -19,7 +20,8 @@ export interface SearchUserResponseDetail {
 
   ignoreAccessFlag: string;
 
-  friendDetail: SearchUserResponseFriendDetailV1[];
+  common: CommonResponseBase;
+
 }
 
-export type SearchUserResponseDetailV1 = SearchUserResponseDetail & CommonResponse;
+export type SearchUserResponseDetailV1 = SearchUserResponseDetail;

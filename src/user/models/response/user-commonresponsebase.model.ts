@@ -2,11 +2,11 @@ export interface CommonResponseBase {
 
   createUser: string;
 
-  createDateTime: Date;
+  createDateTime: string;
 
   updateUser: string;
 
-  updateDateTime: Date;
+  updateDateTime: string;
 
   deleteFlag: string;
 

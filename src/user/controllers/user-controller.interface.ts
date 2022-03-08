@@ -12,17 +12,16 @@ export interface UserControllerInterface {
   /**
    * ユーザ情報一覧取得API
    * リクエストに基づいたユーザ情報の一覧を取得します
-   * @param userId ユーザId
    * @param userCode ユーザコード
    * @param userType ユーザ種別
    */
-  getUser(userId: string, userCode: string, userType: UserType): SearchUserResponseV1;
+  getUser(userCode: string, userType: UserType): Promise<SearchUserResponseV1>;
 
   /**
    * ユーザ情報作成API
    * @param createUserRequest ユーザ情報作成用リクエストオブジェクト
    */
-  createUser(createUserRequest: CreateUserRequestV1): SearchUserResponseDetailV1;
+  createUser(createUserRequest: CreateUserRequestV1): Promise<SearchUserResponseDetailV1>;
 
 
   /**
@@ -31,7 +30,7 @@ export interface UserControllerInterface {
    * @param userId ユーザId
    * @returns
    */
-  searchUser(userId: string): SearchUserResponseDetailV1;
+  searchUser(userId: string): Promise<SearchUserResponseDetailV1>;
 
   /**
    * ユーザ情報更新API
@@ -40,14 +39,14 @@ export interface UserControllerInterface {
    * @param updateUserRequestV1 ユーザ情報更新用リクエストオブジェクト
    * @returns
    */
-  updateUser(userId: string, updateUserRequestV1: UpdateUserRequestV1): SearchUserResponseDetailV1;
+  updateUser(userId: string, updateUserRequestV1: UpdateUserRequestV1): Promise<SearchUserResponseDetailV1>;
 
   /**
    * ユーザ情報削除API
    * ユーザ情報を削除します
    * @param userId ユーザId
    */
-  deleteUser(userId: string): any;
+  deleteUser(userId: string): Promise<void>;
 
 }
 
